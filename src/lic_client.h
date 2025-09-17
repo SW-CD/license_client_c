@@ -78,6 +78,14 @@ LIC_CLIENT_API lic_client_status lic_client_parse_secret_file(const char* file_p
 LIC_CLIENT_API void lic_client_set_insecure_tls(lic_client_datastore* store, bool allow);
 
 /**
+ * @brief Sets the network timeout for all server requests.
+ * @param store The datastore object.
+ * @param milliseconds The timeout value in milliseconds. A value of 0 means
+ * the request will not time out. Default is 15000 (15s).
+ */
+LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, long milliseconds);
+
+/**
  * @brief Performs mutual authentication with the license server.
  * On success, updates the session_token and custom_content within the datastore.
  */

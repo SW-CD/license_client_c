@@ -38,7 +38,7 @@ lic_client_status handle_auth_or_keepalive_request(lic_client_datastore* store, 
     snprintf(auth_url, sizeof(auth_url), "%s/auth", store->server_url);
     
     long http_status = 0;
-    char* resp_body = http_post_json(auth_url, req_body, store->allow_insecure_tls, &http_status);
+    char* resp_body = http_post_json(auth_url, req_body, store->allow_insecure_tls, store->timeout_ms, &http_status);
     free(req_body);
 
     if (!resp_body) {
@@ -75,7 +75,7 @@ lic_client_status handle_release_request(lic_client_datastore* store) {
     snprintf(auth_url, sizeof(auth_url), "%s/auth", store->server_url);
 
     long http_status = 0;
-    char* resp_body = http_post_json(auth_url, req_body, store->allow_insecure_tls, &http_status);
+    char* resp_body = http_post_json(auth_url, req_body, store->allow_insecure_tls, store->timeout_ms, &http_status);
     free(req_body);
 
     if (!resp_body) return LIC_ERROR_NETWORK;

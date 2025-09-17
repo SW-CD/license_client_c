@@ -85,6 +85,16 @@ LIC_CLIENT_API lic_client_status lic_client_parse_secret_file(const char* file_p
 
     store->client_id = strdup(client_id_str);
     store->server_url = strdup(server_url_str);
+
+    // remove possible trailing /
+    if (store->server_url) {
+        size_t len = strlen(store->server_url);
+        while (len > 0 && store->server_url[len - 1] == '/') {
+            store->server_url[len - 1] = '\0';
+            len--;
+        }
+    }
+
     store->server_public_key = parse_pem_public_key(server_pub_key_pem, strlen(server_pub_key_pem));
     store->client_private_key = parse_pem_private_key(client_priv_key_pem, strlen(client_priv_key_pem));
     json_decref(root);
@@ -93,6 +103,8 @@ LIC_CLIENT_API lic_client_status lic_client_parse_secret_file(const char* file_p
         lic_client_free_datastore(store);
         return LIC_ERROR_KEY_PARSE;
     }
+    
+    store->timeout_ms = 15000L; // Default to 15 seconds
 
     *datastore_ptr = store;
     return LIC_SUCCESS;
@@ -100,6 +112,13 @@ LIC_CLIENT_API lic_client_status lic_client_parse_secret_file(const char* file_p
 
 LIC_CLIENT_API void lic_client_set_insecure_tls(lic_client_datastore* store, bool allow) {
     if (store) store->allow_insecure_tls = allow;
+}
+
+LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, long milliseconds) {
+    // libcurl interprets 0 as no timeout, which is acceptable.
+    if (store && milliseconds >= 0) {
+        store->timeout_ms = milliseconds;
+    }
 }
 
 LIC_CLIENT_API lic_client_status lic_client_authenticate(lic_client_datastore* store) {

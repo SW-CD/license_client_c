@@ -20,6 +20,6 @@
  * body on success, or NULL on failure (e.g., network error). The caller is
  * responsible for freeing this string.
  */
-char* http_post_json(const char* url, const char* post_data, bool allow_insecure, long* http_status_code);
+char* http_post_json(const char* url, const char* post_data, bool allow_insecure, long timeout_ms, long* http_status_code);
 
 #endif // HTTP_INTERNAL_H
