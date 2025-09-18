@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdint.h>
 
 // A struct to hold the response data from libcurl
 struct memory_struct {
@@ -31,7 +32,7 @@ static size_t write_memory_callback(void* contents, size_t size, size_t nmemb, v
     return realsize;
 }
 
-char* http_post_json(const char* url, const char* post_data, bool allow_insecure, long timeout_ms, long* http_status_code) {
+char* http_post_json(const char* url, const char* post_data, bool allow_insecure, int64_t timeout_ms, long* http_status_code) {
     CURL* curl_handle;
     CURLcode res;
 
@@ -54,7 +55,7 @@ char* http_post_json(const char* url, const char* post_data, bool allow_insecure
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_memory_callback);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void*)&chunk);
     curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "lic-client-c/1.0");
-    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, timeout_ms);
+    curl_easy_setopt(curl_handle, CURLOPT_TIMEOUT_MS, (long)timeout_ms);
 
     if (allow_insecure) {
         curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);

@@ -4,6 +4,7 @@
 #include "lic_client.h" // Include the public API for enums and the typedef
 #include <stdbool.h>
 #include <openssl/evp.h>
+#include <stdint.h>
 
 /**
  * @brief The internal, complete definition of the datastore.
@@ -18,7 +19,7 @@ struct lic_client_datastore {
     char* custom_content;
     char* content_signature;
     bool allow_insecure_tls;
-    long timeout_ms;
+    int64_t timeout_ms;
 };
 
 #endif // LIC_CLIENT_INTERNAL_H

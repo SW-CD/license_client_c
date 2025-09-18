@@ -2,6 +2,7 @@
 #define LIC_CLIENT_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /* =============================================================================
  * Platform-specific definitions for exporting/importing from a shared library
@@ -83,7 +84,7 @@ LIC_CLIENT_API void lic_client_set_insecure_tls(lic_client_datastore* store, boo
  * @param milliseconds The timeout value in milliseconds. A value of 0 means
  * the request will not time out. Default is 15000 (15s).
  */
-LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, long milliseconds);
+LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, int64_t milliseconds);
 
 /**
  * @brief Performs mutual authentication with the license server.

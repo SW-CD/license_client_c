@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 // --- Public API Implementation ---
 
@@ -104,7 +105,7 @@ LIC_CLIENT_API lic_client_status lic_client_parse_secret_file(const char* file_p
         return LIC_ERROR_KEY_PARSE;
     }
     
-    store->timeout_ms = 15000L; // Default to 15 seconds
+    store->timeout_ms = 15000; // Default to 15 seconds
 
     *datastore_ptr = store;
     return LIC_SUCCESS;
@@ -114,7 +115,7 @@ LIC_CLIENT_API void lic_client_set_insecure_tls(lic_client_datastore* store, boo
     if (store) store->allow_insecure_tls = allow;
 }
 
-LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, long milliseconds) {
+LIC_CLIENT_API void lic_client_set_timeout(lic_client_datastore* store, int64_t milliseconds) {
     // libcurl interprets 0 as no timeout, which is acceptable.
     if (store && milliseconds >= 0) {
         store->timeout_ms = milliseconds;

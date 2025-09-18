@@ -2,6 +2,7 @@
 #define HTTP_INTERNAL_H
 
 #include <stdbool.h> // Include for the bool type
+#include <stdint.h> // Include for int64_t
 
 /**
  * @brief Performs an HTTP POST request with a JSON payload.
@@ -20,6 +21,6 @@
  * body on success, or NULL on failure (e.g., network error). The caller is
  * responsible for freeing this string.
  */
-char* http_post_json(const char* url, const char* post_data, bool allow_insecure, long timeout_ms, long* http_status_code);
+char* http_post_json(const char* url, const char* post_data, bool allow_insecure, int64_t timeout_ms, long* http_status_code);
 
 #endif // HTTP_INTERNAL_H
